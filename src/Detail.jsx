@@ -50,7 +50,6 @@ const Detail = () => {
       setIsLoading(false);
     }
   };
-  console.log("data detail", data);
 
   const handleAddItem = async () => {
     const body = {
@@ -63,11 +62,28 @@ const Detail = () => {
         config
       );
       if (results.data.statusCode === 2000) {
-        console.log("add", results.data);
         getDataDetail();
       }
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
+    }
+  };
+
+  const markComplete = async (id2) => {
+    const body = {
+      itemName: item,
+    };
+    try {
+      const results = await axios.put(
+        `http://94.74.86.174:8080/api/checklist/${id}/item/${id2}`,
+        body,
+        config
+      );
+      if (results.data.statusCode === 2200) {
+        getDataDetail();
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -108,9 +124,16 @@ const Detail = () => {
                           : "on progress"}
                       </Td>
                       <Td>
-                        <Button onClick={() => navigate(`/detail/${list.id}`)}>
-                          Detail
-                        </Button>
+                        <HStack>
+                          <Button
+                            onClick={() => navigate(`/detail/${list.id}`)}
+                          >
+                            Detail
+                          </Button>
+                          <Button onClick={() => markComplete(list.id)}>
+                            Mark Complete
+                          </Button>
+                        </HStack>
                       </Td>
                     </Tr>
                   ))
