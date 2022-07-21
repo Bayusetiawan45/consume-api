@@ -17,11 +17,12 @@ const Login = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [userName, setUsername] = useState("");
-  const body = {
-    password: password,
-    username: userName,
-  };
+
   const handleLogin = async () => {
+    const body = {
+      password: password,
+      username: userName,
+    };
     try {
       const results = await axios.post(
         "http://94.74.86.174:8080/api/login",
