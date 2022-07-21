@@ -21,12 +21,12 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const token = JSON.parse(localStorage.getItem("token"));
-  console.log("token", token);
+  const navigate = useNavigate();
 
   const [data, setData] = useState([]);
   const [list, setList] = useState("");
@@ -58,10 +58,26 @@ const Homepage = () => {
     try {
       const results = await axios.post(
         "http://94.74.86.174:8080/api/checklist",
-        body, config
+        body,
+        config
       );
       if (results.data.statusCode === 2000) {
-        console.log('add', results.data);
+        console.log("add", results.data);
+        getDataChecklist();
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const results = await axios.delete(
+        `http://94.74.86.174:8080/api/checklist/${id}`,
+        config
+      );
+      if (results.data.statusCode === 2300) {
+        console.log("add", results.data);
         getDataChecklist();
       }
     } catch (error) {
@@ -106,7 +122,12 @@ const Homepage = () => {
                           : "on progress"}
                       </Td>
                       <Td>
-                        <Link to="">Detail</Link>
+                        <Button onClick={() => navigate(`/detail/${list.id}`)}>
+                          Detail
+                        </Button>
+                        <Button onClick={() => handleDelete(list.id)}>
+                          Delete
+                        </Button>
                       </Td>
                     </Tr>
                   ))
