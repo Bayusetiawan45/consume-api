@@ -31,6 +31,8 @@ const Detail = () => {
   const [data, setData] = useState([]);
   const [item, setItem] = useState("");
 
+  console.log('data', data);
+
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
@@ -87,12 +89,26 @@ const Detail = () => {
     }
   };
 
+  const handleDelete = async (id3) => {
+    try {
+      const results = await axios.delete(
+        `http://94.74.86.174:8080/api/checklist/${id}/item/${id3}`,
+        config
+      );
+      if (results.data.statusCode === 2300) {
+        getDataDetail();
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
     getDataDetail();
   }, []);
 
   return (
-    <Container>
+    <Container maxW='container.sm'>
       <Heading mb={10}>Detail Page</Heading>
       <HStack mb={10}>
         <FormControl isRequired>
@@ -126,12 +142,22 @@ const Detail = () => {
                       <Td>
                         <HStack>
                           <Button
-                            onClick={() => navigate(`/detail/${list.id}`)}
+                            onClick={() => navigate(`/detail/${id}/item/${list.id}`)}
+                            size="sm"
                           >
                             Detail
                           </Button>
-                          <Button onClick={() => markComplete(list.id)}>
+                          <Button
+                            onClick={() => markComplete(list.id)}
+                            size="sm"
+                          >
                             Mark Complete
+                          </Button>
+                          <Button
+                            onClick={() => handleDelete(list.id)}
+                            size="sm"
+                          >
+                            Delete
                           </Button>
                         </HStack>
                       </Td>
