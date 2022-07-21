@@ -5,6 +5,9 @@ import { useState } from "react";
 
 const Homepage = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const token = JSON.parse(localStorage.getItem("token"));
+  console.log("token", token);
+  
   const [data, setData] = useState("");
   const getData = async () => {
     try {

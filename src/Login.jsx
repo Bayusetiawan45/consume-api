@@ -27,8 +27,9 @@ const Login = () => {
         "http://94.74.86.174:8080/api/login",
         body
       );
-      if(results.data.statusCode === 2000){
-        navigate('/')
+      if (results.data.statusCode === 2000) {
+        navigate("/");
+        localStorage.setItem("items", JSON.stringify(results.data.data.token));
       }
       console.log("res", results);
     } catch (error) {
