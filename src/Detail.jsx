@@ -30,9 +30,7 @@ const Detail = () => {
 
   const [data, setData] = useState([]);
   const [item, setItem] = useState("");
-
-  console.log('data', data);
-
+  
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };

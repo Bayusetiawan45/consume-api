@@ -30,7 +30,7 @@ const Login = () => {
       );
       if (results.data.statusCode === 2110) {
         localStorage.setItem("token", JSON.stringify(results.data.data.token));
-        navigate("/");
+        navigate("/home");
       }
       console.log("res", results);
     } catch (error) {
